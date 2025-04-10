@@ -13,8 +13,8 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 |
 */
 
-// pest()->extend(Tests\TestCase::class)->in('Feature');
-uses(Tests\TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
+pest()->extend(Tests\TestCase::class)->in('Feature');
+// uses(Tests\TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------

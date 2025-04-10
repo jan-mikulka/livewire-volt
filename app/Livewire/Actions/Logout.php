@@ -4,6 +4,7 @@ namespace App\Livewire\Actions;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Routes\Enums\AuthRoutes;
 
 class Logout
 {
@@ -17,6 +18,7 @@ class Logout
         Session::invalidate();
         Session::regenerateToken();
 
-        return redirect('/');
+        return redirect(route(AuthRoutes::HOME))
+            ->with('status', __('You have been logged out.'));
     }
 }
