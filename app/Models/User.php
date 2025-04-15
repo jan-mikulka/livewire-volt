@@ -57,4 +57,12 @@ class User extends Authenticatable
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
+
+    /**
+     * Get the resources owned by the user.
+     */
+    public function resources()
+    {
+        return $this->hasMany(Resource::class);
+    }
 }
