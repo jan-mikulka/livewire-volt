@@ -9,13 +9,15 @@ use \App\Models\Resource;
 uses(RefreshDatabase::class);
 
 it('renders_successfully', function () {
+    $this->user = \App\Models\User::factory()->create();
+    $this->actingAs($this->user);
     get(route(ResourceRoutes::INDEX))
         ->assertOk()
         ->assertSeeText([
             __('Resources'),
             __('Create Resource')
         ]);
-});
+    });
 
 it('displays only own resources', function () {
     // SETUP
@@ -26,8 +28,9 @@ it('displays only own resources', function () {
 
     // TEST
     Volt::test('resources.index')
-        ->assertSee(Resource::where('user_id', $this->user->id)->first()->name)
-        ->assertDontSee(Resource::where('user_id', '!=', $this->user->id)->first()->name);
+    // ->assertOk()
+    ->assertSee(Resource::where('user_id', $this->user->id)->first()->name)
+    ->assertDontSee(Resource::where('user_id', '!=', $this->user->id)->first()->name);
 });
 
 

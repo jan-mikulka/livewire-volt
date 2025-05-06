@@ -9,6 +9,8 @@ use App\Models\Resource;
 uses(RefreshDatabase::class);
 
 it('renders_successfully', function () {
+    $this->user = \App\Models\User::factory()->create();
+    $this->actingAs($this->user);
     get(route(ResourceRoutes::CREATE))
         ->assertOk();
 });

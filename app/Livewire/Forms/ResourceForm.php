@@ -40,6 +40,7 @@ class ResourceForm extends Form
         $this->author = $resource->author;
         $this->domain = $resource->domain;
         $this->type = $resource->type;
+        $this->user_id = $resource->user_id;
 
         $this->resource = $resource;
     }

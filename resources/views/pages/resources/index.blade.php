@@ -9,7 +9,8 @@ name(ResourceRoutes::INDEX->value);
 
 usesPagination();
 
-state([
+with(fn() => [
+    'resources' => Resource::query()->own()->paginate(10),
     'headers' => [
         ['key' => 'name', 'label' => 'Name', 'sortable' => true],
         ['key' => 'type', 'label' => 'Type', 'sortable' => true],
@@ -18,8 +19,6 @@ state([
         ['key' => 'domain', 'label' => 'Domain', 'sortable' => true],
     ]
 ]);
-
-with(fn() => ['resources' => Resource::query()->own()->paginate(10)]);
 
 ?>
 
