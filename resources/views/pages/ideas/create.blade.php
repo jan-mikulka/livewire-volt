@@ -4,8 +4,9 @@ use App\Livewire\Forms\IdeaForm;
 use Routes\Enums\IdeaRoutes;
 use App\Enums\ResourceType;
 use App\Models\Resource;
+use App\Models\Idea;
 use function Laravel\Folio\name;
-use function Livewire\Volt\{state, with, form, mount};
+use function Livewire\Volt\{state, form, mount};
 
 name(IdeaRoutes::CREATE->value);
 
@@ -16,23 +17,31 @@ state([
     'searchableResources' => []
 ]);
 
-mount(fn() => [
+mount(function() {
+    $lastIdea = Idea::latest()->first();
 
-]);
+    if ($lastIdea) {
+            $this->form->setResource($lastIdea->resource_id);
+        }
+        $this->searchResources();
+});
 
 $save = function () {
 
     $this->form->store();
 
     session()->flash('status', 'Idea successfully created.');
-    $this->redirectRoute(IdeaRoutes::INDEX);
+    $this->redirectRoute(IdeaRoutes::CREATE);
 };
 
 $searchResources = function (string $value = '') {
-    $this->searchableResources = Resource::where('name', 'like', "%$value%")
+    $selectedResource = Resource::where('id',  $this->form->resource_id)->get();
+    $searchedResources =
+        Resource::where('name', 'like', "%$value%")
         ->take(10)
         ->orderByDesc('created_at')
         ->get();
+    $this->searchableResources = $selectedResource->merge($searchedResources);
 };
 
 ?>
@@ -44,7 +53,7 @@ $searchResources = function (string $value = '') {
             <h1 class="mb-4">Create Idea</h1>
             <form wire:submit="save">
                 <x-mary-choices wire:model.live="form.resource_id" :options="$searchableResources" label="Resource"
-                    placeholder="Search a resource" search-function="searchResources" single searchable>
+                    placeholder="Search a resource" search-function="searchResources" min-chars="0" single searchable>
                     @scope('item', $resource)
                     <x-mary-list-item :item="$resource" sub-value="author">
                         <x-slot:actions>
@@ -53,7 +62,6 @@ $searchResources = function (string $value = '') {
                     </x-mary-list-item>
                     @endscope
                 </x-mary-choices>
-
                 @if ($form->resource_id)
                                 @php
     $selectedResource = Resource::find($form->resource_id);

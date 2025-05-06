@@ -47,8 +47,6 @@
                     <x-mary-menu-separator />
                 @endif
 
-                <x-mary-menu-item title="Hello" icon="o-sparkles" link="/" />
-
                 <x-mary-menu-sub title="Settings" icon="o-cog-6-tooth">
                     <x-mary-menu-item title="Wifi" icon="o-wifi" link="####" />
                     <x-mary-menu-item title="Archives" icon="o-archive-box" link="####" />

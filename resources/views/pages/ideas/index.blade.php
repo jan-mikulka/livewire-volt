@@ -21,7 +21,7 @@ with(fn() => ['ideas' => Idea::query()->own()->paginate(10)]);
 
 <x-layout>
     <div class="m-auto mb-4 bg-white p-4 rounded-lg shadow">
-        @volt('resources.index')
+        @volt('ideas.index')
         <div>
             <h1 class="text-3xl font-bold mb-4">{{ __('Ideas') }}</h1>
             <div class="mb-4">
@@ -30,7 +30,7 @@ with(fn() => ['ideas' => Idea::query()->own()->paginate(10)]);
                     {{ __('Create Idea') }}
                 </a>
             </div>
-            <x-mary-table :headers="$headers" :rows="$ideas" />
+            <x-mary-table :headers="$headers" :rows="$ideas" link="/ideas/{id}" />
             {{ $ideas->links() }}
         </div>
         @endvolt
